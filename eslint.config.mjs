@@ -1,10 +1,27 @@
-import js from "@eslint/js";
-import globals from "globals";
-import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
+import js from '@eslint/js';
+import globals from 'globals';
+import { defineConfig } from 'eslint/config';
+// import stylistic from '@stylistic/eslint-plugin';
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,jsx}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: globals.browser } },
-  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
-  pluginReact.configs.flat.recommended,
+  // 1. Стилистические правила
+  // stylistic.configs.recommended,
+
+  // 2. Базовые правила для JS файлов
+  {
+    files: ['**/*.{js,mjs,cjs}'], // Все JS файлы
+    plugins: { js },
+    extends: ['js/recommended'], // Рекомендуемые правила
+  },
+
+  // 3. Глобальные переменные
+  {
+    files: ['**/*.{js,mjs,cjs}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser, // window, document, etc.
+        process: 'readonly', // Переменная process (для Node.js)
+      },
+    },
+  },
 ]);
